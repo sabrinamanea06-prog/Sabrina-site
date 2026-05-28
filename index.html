@@ -1,0 +1,209 @@
+
+
+<div class="page">
+  <header class="hero">
+    <div id="typewriter"></div>
+  </header>
+
+  <section class="section">
+    <p class="label">CURRENTLY</p>
+
+    <div class="content">
+      <p class="item numbered"><span>01</span> building websites</p>
+      <p class="item numbered"><span>02</span> starting my real estate career</p>
+      <p class="item numbered"><span>03</span> training as a tennis player</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">ABOUT</p>
+
+    <div class="content">
+      <p class="item">
+        Sabrina is a tennis player, real estate agent, and student, 
+        interested in performance, design, and building a life with intention.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">LINKS</p>
+
+    <div class="content links">
+<a href="https://instagram.com/sabrinamanea_/“ target="_blank">
+Instagram
+</a>
+
+<a href="mailto:sabrinamanea06@gmail.com">
+Email
+</a>
+
+<a href="https://linkedin.com/in/sabrina-manea-318675266/“ target="_blank">
+LinkedIn
+</a>
+</div>
+
+<script>
+  const text = "Hi, I'm Sabrina.\nI compete, sell homes,\nand build things online.";
+  const speed = 55;
+  let i = 0;
+
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById("typewriter").innerHTML +=
+        text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  typeWriter();
+</script>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: #050505;
+    color: white;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 64px 72px 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 95px;
+  }
+
+  .hero {
+    min-height: 50vh;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  #typewriter {
+    font-size: clamp(44px, 7.5vw, 96px);
+    line-height: 0.94;
+    letter-spacing: -0.075em;
+    font-weight: 500;
+    max-width: 980px;
+    min-height: 300px;
+  }
+
+  #typewriter::after {
+    content: "|";
+    display: inline-block;
+    margin-left: 6px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .section {
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 60px;
+  }
+
+  .label {
+    margin: 0;
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    letter-spacing: 0.24em;
+    opacity: 0.55;
+  }
+
+  .content {
+    max-width: 1100px;
+  }
+
+  .item {
+    margin: 0 0 28px;
+    font-size: clamp(38px, 5.4vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
+    font-weight: 400;
+  }
+
+  .numbered {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    column-gap: 22px;
+    align-items: baseline;
+  }
+
+  .numbered span {
+    font-family: "Courier New", monospace;
+    font-size: clamp(16px, 1.4vw, 22px);
+    letter-spacing: 0;
+    opacity: 0.45;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    font-size: clamp(38px, 5.4vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
+    transition: opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.42;
+  }
+
+  ::selection {
+    background: white;
+    color: black;
+  }
+
+  @media (max-width: 700px) {
+    .page {
+      padding: 36px 28px 80px;
+      gap: 76px;
+    }
+
+    .hero {
+      min-height: 48vh;
+    }
+
+    #typewriter {
+      font-size: 48px;
+      min-height: 260px;
+    }
+
+    .section {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .item,
+    a {
+      font-size: clamp(36px, 11vw, 58px);
+    }
+
+    .numbered {
+      grid-template-columns: 48px 1fr;
+      column-gap: 14px;
+    }
+  }
+</style>

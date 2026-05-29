@@ -8,16 +8,16 @@
   <section class="section">
     <p class="label">CURRENTLY</p>
     <div class="content">
-      <p class="item numbered typing"><span>01</span> Economics student</p>
-      <p class="item numbered typing"><span>02</span> California licensed real estate salesperson</p>
-      <p class="item numbered typing"><span>03</span> Starting my career real estate, marketing, and tennis</p>
+      <p class="item numbered"><span>01</span> Economics student</p>
+      <p class="item numbered"><span>02</span> California licensed real estate salesperson</p>
+      <p class="item numbered"><span>03</span> Starting my career real estate, marketing, and tennis</p>
     </div>
   </section>
 
   <section class="section">
     <p class="label">ABOUT</p>
     <div class="content">
-      <p class="item typing">
+      <p class="item">
         Sabrina Manea is an economics student, California licensed real estate salesperson,
         digital strategist, and tennis player living between Barcelona and California.
       </p>
@@ -108,36 +108,6 @@
       setTimeout(typeWriter, speed);
     }
   }
-
-   <script>
-window.addEventListener("load", () => {
-  const elements = document.querySelectorAll(".typing");
-
-  let delay = 0;
-
-  elements.forEach((el) => {
-    const original = el.innerHTML;
-
-    el.innerHTML = "";
-
-    setTimeout(() => {
-      let i = 0;
-
-      const typer = setInterval(() => {
-        el.innerHTML = original.substring(0, i);
-
-        i++;
-
-        if (i > original.length) {
-          clearInterval(typer);
-        }
-      }, 15);
-    }, delay);
-
-    delay += 600;
-  });
-});
-</script>
   
 
   typeWriter();

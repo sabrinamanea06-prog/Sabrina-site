@@ -112,10 +112,9 @@ I'm from California, live in Barcelona, study economics,
 sell real estate,
 and like to learn.`;
 
-const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const typeSpeed = 18;
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-function scrambleHero(callback) {
+function scrambleHero() {
   const el = document.getElementById("typewriter");
   let frame = 0;
 
@@ -128,7 +127,7 @@ function scrambleHero(callback) {
 
         return index < frame / 2
           ? char
-          : scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          : chars[Math.floor(Math.random() * chars.length)];
       })
       .join("");
 
@@ -137,60 +136,11 @@ function scrambleHero(callback) {
     if (frame > heroText.length * 2) {
       clearInterval(interval);
       el.innerHTML = heroText.replaceAll("\n", "<br>");
-      callback();
     }
   }, 20);
 }
 
-function prepareTypewriter() {
-  const elements = document.querySelectorAll(".label, .item, .links a");
-
-  elements.forEach((el) => {
-    const originalHTML = el.innerHTML;
-    const originalText = el.textContent;
-
-    el.dataset.originalHtml = originalHTML;
-    el.dataset.originalText = originalText;
-
-    el.style.minHeight = el.offsetHeight + "px";
-    el.textContent = "";
-  });
-
-  return elements;
-}
-
-function typewritePage(elements) {
-  let delay = 0;
-
-  elements.forEach((el) => {
-    const originalText = el.dataset.originalText;
-    const originalHTML = el.dataset.originalHtml;
-
-    setTimeout(() => {
-      let i = 0;
-
-      const typeInterval = setInterval(() => {
-        el.textContent = originalText.slice(0, i);
-        i++;
-
-        if (i > originalText.length) {
-          clearInterval(typeInterval);
-          el.innerHTML = originalHTML;
-        }
-      }, typeSpeed);
-    }, delay);
-
-    delay += originalText.length * 12 + 120;
-  });
-}
-
-window.addEventListener("load", () => {
-  const elements = prepareTypewriter();
-
-  scrambleHero(() => {
-    typewritePage(elements);
-  });
-});
+window.addEventListener("load", scrambleHero);
 </script>
 
 <style>

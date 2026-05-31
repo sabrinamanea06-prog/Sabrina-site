@@ -6,7 +6,7 @@
   </header>
 
   <div class="intro-photo">
-  <img src="IMG_0620 2.jpg" alt="Sabrina Manea">
+    <img src="IMG_0620 2.jpg" alt="Sabrina Manea">
   </div>
 
   <section class="section">
@@ -15,7 +15,7 @@
       <p class="item numbered"><span>01</span> studying Economics</p>
       <p class="item numbered"><span>02</span> developing my career as a realtor</p>
       <p class="item numbered"><span>03</span> working on marketing and web design</p>
-      <p class="item numbered"><span>03</span> probably playing tennis</p>
+      <p class="item numbered"><span>04</span> probably playing tennis</p>
     </div>
   </section>
 
@@ -35,17 +35,13 @@
       <p class="item numbered"><span>01</span> Real Estate Assistant — The Boyenga Team</p>
       <p class="item numbered">
         <span>02</span>
-          Founder & Digital Strategy Lead —
-          <a href="https://scailemarketing.com" target="_blank">
-          ScAIle Marketing ↗
-      </a>
+        Founder & Digital Strategy Lead —
+        <a href="https://scailemarketing.com" target="_blank">ScAIle Marketing ↗</a>
       </p>
       <p class="item numbered">
-        <span>02</span>
-          Founder & Tutor —
-          <a href="https://looptutoring.com" target="_blank">
-          Loop Tutoring ↗
-      </a>
+        <span>03</span>
+        Founder & Tutor —
+        <a href="https://looptutoring.com" target="_blank">Loop Tutoring ↗</a>
       </p>
     </div>
   </section>
@@ -87,14 +83,14 @@
       <p class="item numbered"><span>01</span> Food: Romanian sarmale, tomatoes with feta cheese, Entrecote</p>
       <p class="item numbered"><span>02</span> Song: The One That Got Away (Katy Perry)</p>
       <p class="item numbered"><span>03</span> Book: The Count of Monte Cristo (Alexandre Dumas), The Great Gatsby (F. Scott Fitzgerald)</p>
-      <p class="item numbered"><span>03</span> Place: San Francisco, California</p>
+      <p class="item numbered"><span>04</span> Place: San Francisco, California</p>
     </div>
   </section>
 
   <section class="section">
     <p class="label">MY WISHES</p>
     <div class="content">
-      <p class="item numbered"><span>01</span> Places I want to visit: Marrakesh (again), Tokyo, New York(!!), Norway</p>
+      <p class="item numbered"><span>01</span> Places I want to visit: Marrakesh again, Tokyo, New York, Norway</p>
       <p class="item numbered"><span>02</span> Languages I want to learn: Portuguese and Mandarin</p>
     </div>
   </section>
@@ -103,7 +99,7 @@
     <p class="label">LINKS</p>
     <div class="content links">
       <a href="mailto:sabrinamanea06@gmail.com">Email ↗</a>
-      <a href="https://wa.me/14085024062" targed = "_blank" >WhatsApp ↗</a>
+      <a href="https://wa.me/14085024062" target="_blank">WhatsApp ↗</a>
       <a href="https://instagram.com/sabrinamanea_" target="_blank">Instagram ↗</a>
       <a href="https://www.linkedin.com/in/sabrina-manea-318675266/" target="_blank">LinkedIn ↗</a>
     </div>
@@ -116,9 +112,10 @@ I'm from California, live in Barcelona, study economics,
 sell real estate,
 and like to learn.`;
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const typeSpeed = 18;
 
-function scrambleHero(done) {
+function scrambleHero(callback) {
   const el = document.getElementById("typewriter");
   let frame = 0;
 
@@ -131,7 +128,7 @@ function scrambleHero(done) {
 
         return index < frame / 2
           ? char
-          : chars[Math.floor(Math.random() * chars.length)];
+          : scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
       })
       .join("");
 
@@ -140,39 +137,59 @@ function scrambleHero(done) {
     if (frame > heroText.length * 2) {
       clearInterval(interval);
       el.innerHTML = heroText.replaceAll("\n", "<br>");
-      done();
+      callback();
     }
   }, 20);
 }
 
-function typewritePage() {
-  const elements = document.querySelectorAll(".label, .item");
+function prepareTypewriter() {
+  const elements = document.querySelectorAll(".label, .item, .links a");
 
-  elements.forEach((el, index) => {
-    const original = el.textContent;
-    const height = el.offsetHeight;
+  elements.forEach((el) => {
+    const originalHTML = el.innerHTML;
+    const originalText = el.textContent;
 
-    el.style.minHeight = height + "px";
+    el.dataset.originalHtml = originalHTML;
+    el.dataset.originalText = originalText;
+
+    el.style.minHeight = el.offsetHeight + "px";
     el.textContent = "";
+  });
+
+  return elements;
+}
+
+function typewritePage(elements) {
+  let delay = 0;
+
+  elements.forEach((el) => {
+    const originalText = el.dataset.originalText;
+    const originalHTML = el.dataset.originalHtml;
 
     setTimeout(() => {
       let i = 0;
 
-      function type() {
-        if (i < original.length) {
-          el.textContent += original.charAt(i);
-          i++;
-          setTimeout(type, 15);
-        }
-      }
+      const typeInterval = setInterval(() => {
+        el.textContent = originalText.slice(0, i);
+        i++;
 
-      type();
-    }, index * 250);
+        if (i > originalText.length) {
+          clearInterval(typeInterval);
+          el.innerHTML = originalHTML;
+        }
+      }, typeSpeed);
+    }, delay);
+
+    delay += originalText.length * 12 + 120;
   });
 }
 
 window.addEventListener("load", () => {
-  scrambleHero(typewritePage);
+  const elements = prepareTypewriter();
+
+  scrambleHero(() => {
+    typewritePage(elements);
+  });
 });
 </script>
 
@@ -195,7 +212,6 @@ body {
 }
 
 .hero {
-  min-height: auto;
   margin-bottom: 72px;
 }
 
@@ -207,8 +223,6 @@ body {
   min-height: 160px;
 }
 
-/* PHOTO */
-
 .intro-photo {
   margin: 0 0 80px 0;
 }
@@ -219,13 +233,11 @@ body {
   display: block;
 }
 
-/* SECTIONS */
-
 .section {
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 24px;
-  margin-bottom: 150px; 
+  margin-bottom: 150px;
 }
 
 .label {
@@ -235,7 +247,7 @@ body {
   letter-spacing: 0.2em;
   opacity: 0.8;
   text-transform: uppercase;
-  margin-top: 150px;
+  padding-top: 150px;
 }
 
 .content {
@@ -286,8 +298,6 @@ a:hover {
   color: black;
 }
 
-/* MOBILE */
-
 @media (max-width: 700px) {
   .page {
     padding: 36px 22px 90px;
@@ -296,6 +306,10 @@ a:hover {
   .section {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .label {
+    padding-top: 60px;
   }
 
   .numbered {

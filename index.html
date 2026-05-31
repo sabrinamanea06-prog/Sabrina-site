@@ -112,7 +112,7 @@ I'm from California, live in Barcelona, study economics,
 sell real estate,
 and like to learn.`;
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 function scrambleHeader() {
   const el = document.getElementById("typewriter");
@@ -147,7 +147,10 @@ scrambleHeader();
 * {
   box-sizing: border-box;
 }
-
+#typewriter {
+  font-family: "Courier New", monospace;
+}
+  
 body {
   margin: 0;
   background: #050505;
@@ -273,6 +276,12 @@ a:hover {
 
   .intro-photo img {
     width: 180px;
+  }
+
+  #typewriter {
+  overflow: hidden;
+  word-break: normal;
+  overflow-wrap: normal;
   }
 }
 </style>

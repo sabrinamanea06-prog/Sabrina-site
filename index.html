@@ -117,7 +117,7 @@ sell real estate,
 and like to learn.`;
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const speed = 35;
+const speed = 25;
 
 /* HERO SCRAMBLE */
 function scrambleHero() {
@@ -150,7 +150,7 @@ function scrambleHero() {
 function typewriteElement(el) {
   if (el.dataset.typed === "true") return;
 
-  const original = el.textContent;
+  const original = el.dataset.originalText;
   el.dataset.typed = "true";
   el.textContent = "";
 
@@ -183,7 +183,7 @@ function setupScrollTyping() {
       }
     });
   }, {
-    threshold: 0.25
+    threshold: 0.2
   });
 
   elements.forEach(el => observer.observe(el));

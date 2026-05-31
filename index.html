@@ -106,42 +106,7 @@
   </section>
 </div>
 
-<script>
-const text = `Hi, I'm Sabrina Manea.
-I'm from California, live in Barcelona, study economics,
-sell real estate,
-and like to learn.`;
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-function scrambleHeader() {
-  const el = document.getElementById("typewriter");
-  let frame = 0;
-
-  const interval = setInterval(() => {
-    el.innerHTML = text
-      .split("")
-      .map((char, index) => {
-        if (char === "\n") return "<br>";
-        if (char === " ") return " ";
-
-        return index < frame / 2
-          ? char
-          : chars[Math.floor(Math.random() * chars.length)];
-      })
-      .join("");
-
-    frame++;
-
-    if (frame > text.length * 2) {
-      clearInterval(interval);
-      el.innerHTML = text.replace(/\n/g, "<br>");
-    }
-  }, 20);
-}
-
-scrambleHeader();
-</script>
 
 <style>
 * {

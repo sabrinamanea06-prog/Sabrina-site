@@ -160,7 +160,7 @@
   padding-top: 0;
   margin-bottom: 54px;
   display: grid;
-  grid-template-columns: 46px 1fr;
+  grid-template-columns: 120 px minmax(0, 1fr);
   gap: 24px;
 }
 
@@ -169,12 +169,13 @@
 }
 
 .content {
-  max-width: 1200px;
+  max-width: none;
+  width: 100%;
 }
 
 .item {
   margin: 0 0 22px;
-  font-size: clamp(22px, 3vw, 34px);
+  font-size: clamp(28px, 4vw, 56px);
   line-height: 1.12;
   letter-spacing: -0.035em;
   font-weight: 400;

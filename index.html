@@ -129,11 +129,11 @@
 </script>
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  body {
+body {
   margin: 0;
   background: #050505;
   color: #f4f1ea;
@@ -159,12 +159,27 @@
   min-height: 160px;
 }
 
+/* PHOTO */
+
+.intro-photo {
+  margin: 0 0 80px 0;
+}
+
+.intro-photo img {
+  width: 250px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SECTIONS */
+
 .section {
   border-top: none;
   padding-top: 0;
   margin-bottom: 54px;
   display: grid;
-  grid-template-columns: 120 px minmax(0, 1fr);
+  grid-template-columns: 120px minmax(0, 1fr);
   gap: 24px;
 }
 
@@ -196,7 +211,6 @@
   font-family: "Courier New", monospace;
   font-size: 13px;
   opacity: 0.45;
-  letter-spacing: 0;
 }
 
 a {
@@ -212,8 +226,17 @@ a:hover {
 }
 
 .links {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
+
+::selection {
+  background: white;
+  color: black;
+}
+
+/* MOBILE */
 
 @media (max-width: 700px) {
   .page {
@@ -228,14 +251,9 @@ a:hover {
   .numbered {
     grid-template-columns: 34px 1fr;
   }
-  .intro-photo {
-  margin: 0 0 100px 0;
-}
 
-.intro-photo img {
-  width: 250px;
-  display: block;
-  max-width: 100%
-}
+  .intro-photo img {
+    width: 180px;
+  }
 }
 </style>

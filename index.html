@@ -111,21 +111,88 @@
 </div>
 
 <script>
-  const text = "Hi, I'm Sabrina Manea.\nI'm from California, live in Barcelona, study economics,\nsell real estate,\nand like to learn.";
-  const speed = 55;
+const heroText = `Hi, I'm Sabrina Manea.
+I'm from California, live in Barcelona, study economics,
+sell real estate,
+and like to learn.`;
+
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const speed = 35;
+
+/* HERO SCRAMBLE */
+function scrambleHero() {
+  const el = document.getElementById("typewriter");
+  let frame = 0;
+
+  const interval = setInterval(() => {
+    el.innerHTML = heroText
+      .split("")
+      .map((char, index) => {
+        if (char === "\n") return "<br>";
+        if (char === " ") return " ";
+
+        return index < frame / 2
+          ? char
+          : chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join("");
+
+    frame++;
+
+    if (frame > heroText.length * 2) {
+      clearInterval(interval);
+      el.innerHTML = heroText.replaceAll("\n", "<br>");
+    }
+  }, 25);
+}
+
+/* SCROLL TYPEWRITER */
+function typewriteElement(el) {
+  if (el.dataset.typed === "true") return;
+
+  const original = el.textContent;
+  el.dataset.typed = "true";
+  el.textContent = "";
+
   let i = 0;
 
-  function typeWriter() {
-    if (i < text.length) {
-      document.getElementById("typewriter").innerHTML +=
-        text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+  function type() {
+    if (i < original.length) {
+      el.textContent += original.charAt(i);
       i++;
-      setTimeout(typeWriter, speed);
+      setTimeout(type, speed);
     }
   }
-  
 
-  typeWriter();
+  type();
+}
+
+function setupScrollTyping() {
+  const elements = document.querySelectorAll(".label, .item, .links a");
+
+  elements.forEach(el => {
+    el.dataset.originalText = el.textContent;
+    el.textContent = "";
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        typewriteElement(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.25
+  });
+
+  elements.forEach(el => observer.observe(el));
+}
+
+window.addEventListener("load", () => {
+  scrambleHero();
+  setupScrollTyping();
+});
 </script>
 
 <style>

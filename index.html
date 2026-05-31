@@ -118,7 +118,6 @@ and like to learn.`;
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-/* HERO SCRAMBLE */
 function scrambleHero(done) {
   const el = document.getElementById("typewriter");
   let frame = 0;
@@ -146,30 +145,29 @@ function scrambleHero(done) {
   }, 20);
 }
 
-/* TYPEWRITER FOR REST OF PAGE */
 function typewritePage() {
-  const elements = document.querySelectorAll(".label, .item, .links a");
-  let delay = 0;
+  const elements = document.querySelectorAll(".label, .item");
 
-  elements.forEach((el) => {
-    const original = el.innerHTML;
-    el.innerHTML = "";
+  elements.forEach((el, index) => {
+    const original = el.textContent;
+    const height = el.offsetHeight;
+
+    el.style.minHeight = height + "px";
+    el.textContent = "";
 
     setTimeout(() => {
       let i = 0;
 
       function type() {
         if (i < original.length) {
-          el.innerHTML = original.slice(0, i + 1);
+          el.textContent += original.charAt(i);
           i++;
-          setTimeout(type, 18);
+          setTimeout(type, 15);
         }
       }
 
       type();
-    }, delay);
-
-    delay += original.length * 12;
+    }, index * 250);
   });
 }
 

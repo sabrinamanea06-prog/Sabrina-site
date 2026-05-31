@@ -117,10 +117,9 @@ sell real estate,
 and like to learn.`;
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const speed = 25;
 
 /* HERO SCRAMBLE */
-function scrambleHero() {
+function scrambleHero(done) {
   const el = document.getElementById("typewriter");
   let frame = 0;
 
@@ -142,56 +141,40 @@ function scrambleHero() {
     if (frame > heroText.length * 2) {
       clearInterval(interval);
       el.innerHTML = heroText.replaceAll("\n", "<br>");
+      done();
     }
-  }, 25);
+  }, 20);
 }
 
-/* SCROLL TYPEWRITER */
-function typewriteElement(el) {
-  if (el.dataset.typed === "true") return;
-
-  const original = el.dataset.originalText;
-  el.dataset.typed = "true";
-  el.textContent = "";
-
-  let i = 0;
-
-  function type() {
-    if (i < original.length) {
-      el.textContent += original.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    }
-  }
-
-  type();
-}
-
-function setupScrollTyping() {
+/* TYPEWRITER FOR REST OF PAGE */
+function typewritePage() {
   const elements = document.querySelectorAll(".label, .item, .links a");
+  let delay = 0;
 
-  elements.forEach(el => {
-    el.dataset.originalText = el.textContent;
-    el.textContent = "";
-  });
+  elements.forEach((el) => {
+    const original = el.innerHTML;
+    el.innerHTML = "";
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        typewriteElement(entry.target);
-        observer.unobserve(entry.target);
+    setTimeout(() => {
+      let i = 0;
+
+      function type() {
+        if (i < original.length) {
+          el.innerHTML = original.slice(0, i + 1);
+          i++;
+          setTimeout(type, 18);
+        }
       }
-    });
-  }, {
-    threshold: 0.2
-  });
 
-  elements.forEach(el => observer.observe(el));
+      type();
+    }, delay);
+
+    delay += original.length * 12;
+  });
 }
 
 window.addEventListener("load", () => {
-  scrambleHero();
-  setupScrollTyping();
+  scrambleHero(typewritePage);
 });
 </script>
 

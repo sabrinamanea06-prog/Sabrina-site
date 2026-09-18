@@ -1,0 +1,588 @@
+<script>document.documentElement.classList.add('js');</script>
+
+<div class="sky" aria-hidden="true">
+  <div class="sun"></div>
+</div>
+
+<div class="page">
+  <header class="hero">
+    <div id="typewriter"></div>
+  </header>
+
+  <div class="intro-photo">
+    <img src="IMG_6076.JPG" alt="Sabrina Manea">
+  </div>
+
+  <section class="section">
+    <p class="label">CURRENTLY</p>
+    <div class="content">
+      <p class="item numbered"><span>01</span> Economics student</p>
+      <p class="item numbered"><span>02</span> Business Owner</p>
+      <p class="item numbered"><span>03</span> Real Estate Advisor</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">LOCATION</p>
+    <div class="content">
+      <p class="item">
+        Currently in Barcelona, Spain. Originally from San Francisco, California.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">EXPERIENCE</p>
+    <div class="content">
+      <p class="item numbered"><span>01</span> Real Estate Assistant — The Boyenga Team</p>
+      <p class="item numbered">
+        <span>02</span>
+        Founder & Head of Digital Strategy —
+        <a href="https://scailemarketing.com" target="_blank">ScAIle Marketing ↗</a>
+      </p>
+      <p class="item numbered">
+        <span>03</span>
+        Founder & Tutor —
+        <a href="https://looptutoring.com" target="_blank">Loop Tutoring ↗</a>
+      </p>
+      <p class="item numbered">
+        <span>03</span>
+        Co-Founder & Head of Marketing —
+        <a href="https://baselinelabfitness.com" target="_blank">Baseline Lab ↗</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">EDUCATION</p>
+    <div class="content">
+      <p class="item numbered"><span>01</span> De Anza College for Economics </p>
+      <p class="item numbered"><span>02</span> Saratoga High School</p>
+      <p class="item numbered"><span>03</span> Escola Pia Igualada — Segundo Bachillerato</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">SKILLS</p>
+    <div class="content">
+      <p class="item">
+        Real estate research, comparative market analysis, listing support, CRM systems, SEMrush, Ahrefs,
+        WordPress, Wix, Squarespace, Github, and Canva.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">LANGUAGES</p>
+    <div class="content">
+      <p class="item numbered"><span>01</span> English — Native</p>
+      <p class="item numbered"><span>02</span> Spanish — Fluent</p>
+      <p class="item numbered"><span>03</span> Romanian — Advanced</p>
+      <p class="item numbered"><span>04</span> French — Intermediate</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">LINKS</p>
+    <div class="content links">
+      <a href="mailto:sabrinamanea06@gmail.com">Email ↗</a>
+      <a href="https://wa.me/14085024062" target="_blank">WhatsApp ↗</a>
+      <a href="https://instagram.com/sabrinamanea_" target="_blank">Instagram ↗</a>
+      <a href="https://www.linkedin.com/in/sabrina-manea-318675266/" target="_blank">LinkedIn ↗</a>
+    </div>
+  </section>
+</div>
+
+<script>
+const text = `Hi, my name is Sabrina Manea. I'm currently 19 years old.`;
+
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function scrambleHeader() {
+  const el = document.getElementById("typewriter");
+
+  if (prefersReduced) {
+    el.innerHTML = text.replace(/\n/g, "<br>");
+    return;
+  }
+
+  let frame = 0;
+
+  const interval = setInterval(() => {
+    el.innerHTML = text
+      .split("")
+      .map((char, index) => {
+        if (char === "\n") return "<br>";
+        if (char === " ") return " ";
+
+        return index < frame / 2
+          ? char
+          : chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join("");
+
+    frame++;
+
+    if (frame > text.length * 2) {
+      clearInterval(interval);
+      el.innerHTML = text.replace(/\n/g, "<br>") + ' <span class="cursor" aria-hidden="true">_</span>';
+    }
+  }, 20);
+}
+
+// Sun that rises and sets as the page is scrolled, with a matching sky gradient
+function initSunScroll() {
+  const sky = document.querySelector(".sky");
+  const sun = document.querySelector(".sun");
+  if (!sky || !sun) return;
+
+  if (prefersReduced) {
+    sky.style.background = "#050505";
+    sun.style.display = "none";
+    return;
+  }
+
+  // Sky color stops keyed by scroll progress (0 = top of page, 1 = bottom).
+  // Starts and ends pure black; color only appears as the sun rises and sets in between.
+  const stops = [
+    { p: 0, top: [5, 5, 5], bottom: [5, 5, 5] }, // black, before sunrise
+    { p: 0.18, top: [12, 10, 24], bottom: [128, 66, 48] }, // sunrise
+    { p: 0.5, top: [8, 20, 30], bottom: [32, 74, 96] }, // midday
+    { p: 0.82, top: [24, 11, 26], bottom: [138, 58, 42] }, // sunset
+    { p: 1, top: [5, 5, 5], bottom: [5, 5, 5] } // black again at the very bottom
+  ];
+
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lerpColor = (c1, c2, t) => [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)];
+  const rgb = ([r, g, b]) => `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+
+  function colorAt(progress) {
+    for (let i = 0; i < stops.length - 1; i++) {
+      const a = stops[i];
+      const b = stops[i + 1];
+      if (progress >= a.p && progress <= b.p) {
+        const t = (progress - a.p) / (b.p - a.p);
+        return { top: rgb(lerpColor(a.top, b.top, t)), bottom: rgb(lerpColor(a.bottom, b.bottom, t)) };
+      }
+    }
+    const last = stops[stops.length - 1];
+    return { top: rgb(last.top), bottom: rgb(last.bottom) };
+  }
+
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+
+    const { top, bottom } = colorAt(progress);
+    sky.style.background = `linear-gradient(to bottom, ${top}, ${bottom})`;
+
+    // The sun arcs across the ENTIRE page: below the horizon (invisible) at the
+    // very top, rising, peaking at midday in the middle, and setting again by
+    // the very bottom — matching the sky fading from black, through color, back to black.
+    const sunX = 8 + progress * 84;
+    const horizon = window.innerHeight * 0.82;
+    const peak = window.innerHeight * 0.12;
+    const sunY = horizon - (horizon - peak) * Math.sin(progress * Math.PI);
+
+    const fadeInEnd = 0.18;
+    const fadeOutStart = 0.82;
+    const fadeIn = Math.min(progress / fadeInEnd, 1);
+    const fadeOut = progress > fadeOutStart ? 1 - Math.min((progress - fadeOutStart) / (1 - fadeOutStart), 1) : 1;
+
+    sun.style.opacity = Math.min(fadeIn, fadeOut) * 0.9;
+    sun.style.transform = `translate3d(${sunX}vw, ${sunY}px, 0)`;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
+// Every so often, give a random bit of text on the page a quick chromatic-aberration glitch
+function initTextGlitch() {
+  if (prefersReduced) return;
+
+  function triggerGlitch() {
+    const els = document.querySelectorAll(".label, .item, .numbered span");
+    if (els.length) {
+      const el = els[Math.floor(Math.random() * els.length)];
+      if (!el.classList.contains("glitching")) {
+        el.classList.add("glitching");
+        el.addEventListener("animationend", () => el.classList.remove("glitching"), { once: true });
+      }
+    }
+    setTimeout(triggerGlitch, 2500 + Math.random() * 4500);
+  }
+
+  setTimeout(triggerGlitch, 2000 + Math.random() * 2000);
+}
+
+// Reveal the arrow glyph in links as its own span so it can animate on hover
+function wrapArrows() {
+  document.querySelectorAll("a").forEach((a) => {
+    if (a.textContent.includes("↗") && !a.querySelector(".arrow")) {
+      a.innerHTML = a.innerHTML.replace("↗", '<span class="arrow">↗</span>');
+    }
+  });
+}
+
+// Fade + rise sections and the photo into view as the page is scrolled,
+// with numbered list items staggering in one after another.
+function initScrollReveal() {
+  const revealEls = document.querySelectorAll(".section, .intro-photo");
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    revealEls.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  revealEls.forEach((el) => {
+    el.querySelectorAll(".numbered").forEach((item, i) => {
+      item.style.setProperty("--i", i);
+    });
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+  );
+
+  revealEls.forEach((el) => observer.observe(el));
+}
+
+try {
+  scrambleHeader();
+  wrapArrows();
+  initScrollReveal();
+  initSunScroll();
+  initTextGlitch();
+} catch (err) {
+  // If anything above fails, make sure content is still fully visible.
+  document.querySelectorAll(".section, .intro-photo").forEach((el) => el.classList.add("is-visible"));
+  const el = document.getElementById("typewriter");
+  if (el && !el.textContent) el.innerHTML = text.replace(/\n/g, "<br>");
+}
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+#typewriter {
+  font-family: "Courier New", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: #f4f1ea;
+  font-family: "Courier New", monospace;
+}
+
+/* Fixed backdrop: a sky gradient + sun that track scroll progress down the whole page */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to bottom, #050505, #050505);
+  pointer-events: none;
+}
+
+.sun {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 260px;
+  margin: -130px 0 0 -130px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 170, 0.55) 0%,
+    rgba(255, 158, 100, 0.25) 35%,
+    rgba(255, 158, 100, 0) 70%
+  );
+  filter: blur(2px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 48px 100px;
+}
+
+.hero {
+  min-height: auto;
+  margin-bottom: 36px;
+}
+
+#typewriter {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(22px, 3.2vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  min-height: 90px;
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Brief chromatic-aberration style glitch, applied to a random element every so often */
+.glitching {
+  animation: textGlitch 0.35s steps(2, end);
+}
+
+@keyframes textGlitch {
+  0% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+  10% {
+    transform: translate(-2px, 1px);
+    text-shadow: -2px 0 #ff2e63, 2px 0 #08f7fe;
+  }
+  20% {
+    transform: translate(2px, -1px);
+    text-shadow: 2px 0 #ff2e63, -2px 0 #08f7fe;
+    opacity: 0.85;
+  }
+  35% {
+    transform: translate(-1px, 1px);
+    text-shadow: -1px 0 #ff2e63, 1px 0 #08f7fe;
+  }
+  50% {
+    transform: translate(1px, 0);
+    text-shadow: 1px 0 #08f7fe, -1px 0 #ff2e63;
+    opacity: 1;
+  }
+  65% {
+    transform: translate(-1px, 0);
+    text-shadow: none;
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+}
+
+/* PHOTO */
+
+.intro-photo {
+  margin: 0 0 30px 0;
+}
+
+.intro-photo img {
+  width: 240px;
+  height: auto;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-photo img:hover {
+  transform: scale(1.05);
+}
+
+/* SECTIONS */
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 84px;
+}
+
+.label {
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: 21px;
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+  text-transform: uppercase;
+  margin-top: 72px;
+  margin-bottom: 24px;
+}
+
+.content {
+  max-width: none;
+  width: 100%;
+}
+
+.item {
+  margin: 0 0 16px;
+  font-family: "Courier New", monospace;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.55;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.numbered {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  column-gap: 14px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.numbered:hover {
+  transform: translateX(10px);
+}
+
+.numbered span {
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  opacity: 0.45;
+  transition: opacity 0.35s ease;
+}
+
+.numbered:hover span {
+  opacity: 1;
+}
+
+a {
+  position: relative;
+  color: #f4f1ea;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(244, 241, 234, 0.35);
+  font-size: inherit;
+  letter-spacing: inherit;
+  transition: opacity 0.35s ease;
+}
+
+a:hover {
+  opacity: 0.55;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+a:hover .arrow {
+  transform: translate(3px, -3px);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+::selection {
+  background: white;
+  color: black;
+}
+
+/* SCROLL-TRIGGERED REVEALS (progressive enhancement: only hidden when JS runs) */
+
+.js .section,
+.js .intro-photo {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.js .section.is-visible,
+.js .intro-photo.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.js .section .numbered {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.js .section.is-visible .numbered {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .js .section,
+  .js .intro-photo,
+  .js .section .numbered {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .page {
+    padding: 36px 22px 90px;
+  }
+
+  .section {
+    gap: 10px;
+  }
+
+  .numbered {
+    grid-template-columns: 26px 1fr;
+  }
+
+  .intro-photo img {
+    width: 160px;
+  }
+
+  #typewriter {
+    overflow: hidden;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .sun {
+    width: 170px;
+    height: 170px;
+    margin: -85px 0 0 -85px;
+  }
+}
+</style>
